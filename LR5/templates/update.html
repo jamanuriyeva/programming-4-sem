@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Изменить список валют</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin: 20px 0; }
+        label { display: block; margin: 10px 0 5px; }
+        input { padding: 8px; width: 300px; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+        .message { color: green; margin: 10px 0; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Изменить список отслеживаемых валют</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('update_currencies') }}">
+        <label for="currencies">Введите коды валют через запятую (например: USD,EUR,GBP):</label>
+        <input type="text" id="currencies" name="currencies" value="{{ current_currencies }}" required>
+
+        <button type="submit">Обновить список</button>
+    </form>
+
+    <a href="{{ url_for('index') }}">Вернуться к списку курсов</a>
+</body>
+</html>
